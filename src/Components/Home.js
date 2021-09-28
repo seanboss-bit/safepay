@@ -1,0 +1,37 @@
+import React, { useState, useEffect } from "react";
+import About from "./Home Components/About";
+import CopyRight from "./Home Components/CopyRight";
+import Footer from "./Home Components/Footer";
+import Language from "./Home Components/Language";
+import Services from "./Home Components/Services";
+import Showcase from "./Home Components/Showcase";
+
+const Home = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    // eslint-disable-next-line
+  }, []);
+  return (
+    <div>
+      {loading ? (
+        <div className="loading">
+          <img src="/images/preloader.gif" alt="#" />
+        </div>
+      ) : (
+        <div>
+          <Language />
+          <Showcase />
+          <About />
+          <Services />
+          <Footer />
+          <CopyRight />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Home;
