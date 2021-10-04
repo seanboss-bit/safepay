@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap");
 :root {
   --main-color: #ffb24d;
   --top-bar-color: #11193b;
@@ -6,7 +6,7 @@
   --white-color: #fff;
 }
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 /*=================== 
 CUSTOM CSS
@@ -278,6 +278,13 @@ SHOWCASE DESIGN
 .form-footer a {
   color: var(--main-color);
 }
+.info-loading {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /*===========================
 ABOUT SECTION STYLING
 =============================*/
@@ -484,7 +491,6 @@ FOOTER STYLING
   padding: 8px 15px;
   border: 1px solid #666;
   height: auto;
-  flex: 1;
 }
 .signup-now input:focus {
   outline: none;
@@ -492,8 +498,9 @@ FOOTER STYLING
 }
 .signup-now .btn-orange {
   border-radius: 0px;
-  padding: 7px;
-  height: auto;
+  padding: 9px 7px;
+  display: inline-block;
+  font-size: 13px;
 }
 .footer-title {
   font-size: 20px;
@@ -810,6 +817,10 @@ STYLING FOR LOGIN AND REGISTER PAGES
   .signup-now .btn-orange {
     font-size: 14px;
     padding: 8px 0;
+    width: 50%;
+  }
+  .signup-now input {
+    width: 100%;
   }
   .footer-title {
     color: var(--main-color);
