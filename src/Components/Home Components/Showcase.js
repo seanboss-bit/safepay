@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import payments from "../api/payment-type";
 import userData from "../api/user";
@@ -10,7 +11,10 @@ const Showcase = () => {
   const [value, setValue] = useState(false);
   const [option, setOption] = useState(payments[0]);
   const [search, setSearch] = useState("");
-  const [users, setUsers] = useState(userData);
+  const [users, setUsers] = useState();
+  const [modalLoading, setModalLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [sucess, setSucess] = useState(true);
   const changeOption = (e) => {
     const selectedOptionId = e.target.value;
     const selectedOption = payments.filter(
@@ -26,21 +30,18 @@ const Showcase = () => {
     setOption(payments[0]);
     // eslint-disable-next-line
   }, []);
-
   useEffect(() => {
-    // eslint-disable-next-line
-    const findUser = userData.filter((user) => {
-      if (
+    setModalLoading(true);
+    setTimeout(() => {
+      setModalLoading(false);
+    }, 4000);
+  }, [modal, sucess]);
+  useEffect(() => {
+    const findUser = userData.find((user) => {
+      return (
         user.regNumber.toLowerCase().toString() ===
         search.toLowerCase().toString()
-      ) {
-        return user;
-      } else if (
-        user.regNumber.toLowerCase().toString() !==
-        search.toLowerCase().toString()
-      ) {
-        console.log("bad");
-      }
+      );
     });
     setUsers(findUser);
   }, [search]);
@@ -91,7 +92,6 @@ const Showcase = () => {
                       }, 5000);
                     }
                   }}
-                  on
                 />
               </div>
               {value ? (
@@ -109,12 +109,19 @@ const Showcase = () => {
                       </span>{" "}
                       for{" "}
                       <span className="name">
-                        {users.map((user) => (
-                          <span key={user.id}>
-                            {user.firstName}
-                            <span className="ms-1 me-1">{user.lastName}</span>
+                        {users ? (
+                          <span>
+                            {users.firstName}
+                            <span className="ms-1 me-1">{users.lastName}</span>
                           </span>
-                        ))}
+                        ) : (
+                          <div>
+                            {setValue(false)}
+                            {toast.error(
+                              "User with This Registration Number Does Not Exist"
+                            )}
+                          </div>
+                        )}
                       </span>
                       being <span className="name">{option.value}</span> fees
                       exchange rate
@@ -126,7 +133,17 @@ const Showcase = () => {
                 <input type="checkbox" />
                 <span className="name ms-1">send me the payment reference</span>
               </div>
-              <button className="btn-orange mt-3">continue</button>
+              <button
+                className="btn-orange mt-3"
+                disabled={search === "" && users}
+                onClick={() => {
+                  if (users) {
+                    setModal(true);
+                  }
+                }}
+              >
+                continue
+              </button>
               <div className="form-footer">
                 <p>
                   By clicking continue, I am agree with{" "}
@@ -138,6 +155,101 @@ const Showcase = () => {
           </div>
         </div>
       </div>
+      {modal ? (
+        <div className="showcase-modal-bg">
+          <div className="container">
+            <div className="showcase-modal-body">
+              {modalLoading ? (
+                <div className="modal-load">
+                  <ClipLoader color="#ffb24d" size={130} />
+                </div>
+              ) : (
+                <div>
+                  <div className="closing">
+                    <CloseIcon onClick={() => setModal(false)} />
+                  </div>
+                  <div className="reference">
+                    <p>REF NO: FGIE34525JTE</p>
+                  </div>
+                  {sucess ? (
+                    <div>
+                      <div className="content">
+                        <p>Are You Sure That You Want To Continue</p>
+                        <p>
+                          You are About to pay{" "}
+                          <span className="price me-1">
+                            N{NumberWithComma(option?.price)}
+                          </span>
+                          for{" "}
+                          <span className="name">
+                            {users?.firstName}
+                            <span className="ms-1 me-1">{users?.lastName}</span>
+                          </span>{" "}
+                          <span className="name">{option.value}</span> with
+                          SafePay
+                        </p>
+                      </div>
+                      <input type="text" placeholder="Phone Number" />
+                      <div className="buttons">
+                        <button
+                          className="btn-reverse"
+                          onClick={() => setModal(false)}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="btn-orange"
+                          onClick={() => {
+                            setSucess(false);
+                            setModalLoading(true);
+                            setTimeout(() => {
+                              setModalLoading(false);
+                            }, 4000);
+                          }}
+                        >
+                          continue
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      {modalLoading ? (
+                        <div className="modal-load">
+                          <ClipLoader color="#ffb24d" size={130} />
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="reference bold">
+                            <p>PAY REF: 8480238484</p>
+                          </div>
+                          <div className="content">
+                            <p>Your Payment Has Been Approved</p>
+                            <p>
+                              To Complete the Payment From Any Bank Dial
+                              *Bank_Code*000*REF NO#
+                            </p>
+                          </div>
+
+                          <button
+                            className="btn-reverse"
+                            onClick={() => {
+                              setModal(false);
+                              setValue(false);
+                              setOption(payments[0]);
+                            }}
+                          >
+                            Continue
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

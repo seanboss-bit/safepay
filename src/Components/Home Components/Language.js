@@ -35,7 +35,10 @@ const Language = () => {
         </div>
         <div className="lan-right">
           <div className="container">
-            <span onMouseOver={() => setLang(true)}>
+            <span
+              onMouseOver={() => setLang(true)}
+              onClick={() => setLang(false)}
+            >
               <img src="/images/w1.png" alt="#" className="me-2" />
               ENG
             </span>
