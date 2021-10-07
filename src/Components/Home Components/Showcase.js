@@ -34,7 +34,7 @@ const Showcase = () => {
     setModalLoading(true);
     setTimeout(() => {
       setModalLoading(false);
-    }, 4000);
+    }, 2000);
   }, [modal, sucess]);
   useEffect(() => {
     const findUser = userData.find((user) => {
@@ -89,7 +89,7 @@ const Showcase = () => {
                       setValue(true);
                       setTimeout(() => {
                         setLoading(false);
-                      }, 5000);
+                      }, 2000);
                     }
                   }}
                 />
@@ -165,14 +165,19 @@ const Showcase = () => {
                 </div>
               ) : (
                 <div>
-                  <div className="closing">
-                    <CloseIcon onClick={() => setModal(false)} />
-                  </div>
-                  <div className="reference">
-                    <p>REF NO: FGIE34525JTE</p>
-                  </div>
                   {sucess ? (
                     <div>
+                      <div className="closing">
+                        <CloseIcon
+                          onClick={() => {
+                            setModal(false);
+                            toast.error("Transaction Not Completed");
+                          }}
+                        />
+                      </div>
+                      <div className="reference">
+                        <p>REF NO: FGIE34525JTE</p>
+                      </div>
                       <div className="content">
                         <p>Are You Sure That You Want To Continue</p>
                         <p>
@@ -204,7 +209,7 @@ const Showcase = () => {
                             setModalLoading(true);
                             setTimeout(() => {
                               setModalLoading(false);
-                            }, 4000);
+                            }, 2000);
                           }}
                         >
                           continue
@@ -219,6 +224,16 @@ const Showcase = () => {
                         </div>
                       ) : (
                         <div>
+                          <div className="closing">
+                            <CloseIcon
+                              onClick={() => {
+                                setModal(false);
+                              }}
+                            />
+                          </div>
+                          <div className="reference">
+                            <p>REF NO: FGIE34525JTE</p>
+                          </div>
                           <div className="reference bold">
                             <p>PAY REF: 8480238484</p>
                           </div>

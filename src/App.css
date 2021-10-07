@@ -836,6 +836,9 @@ POP UP STYLING
   .showcase-modal-body {
     width: auto;
   }
+  .showcase-modal-bg {
+    padding: 0 10px;
+  }
   .mouse-over-body {
     left: 5%;
     z-index: 130;
